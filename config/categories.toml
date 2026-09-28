@@ -1,0 +1,71 @@
+# Skip-reason categories: the single source of truth for classification.
+#
+# Each Kani skip reason must match exactly one category (by prefix of the verbatim
+# "Reason for Skipping" text). A reason that matches none fails validation, so a Kani
+# wording change can never be silently absorbed into a catch-all bucket.
+#
+# Reason formats come from Kani kani-driver/src/autoharness/mod.rs (print_autoharness_metadata)
+# and kani-compiler/src/kani_middle/codegen_units.rs. See docs/classification.md.
+
+config_version = 1
+
+[[category]]
+id = "missing_arbitrary"
+label = "Missing Arbitrary"
+kani_variant = "MissingArbitraryImpl"
+axis = "coverage"
+umbrella = { repo = "model-checking/kani", number = 4887 }
+prefixes = ["Missing Arbitrary implementation for argument(s)"]
+args = true
+
+[[category]]
+id = "generic_no_candidate"
+label = "Generic: no candidate type"
+kani_variant = "GenericFn"
+axis = "coverage"
+umbrella = { repo = "model-checking/kani", number = 4888 }
+prefixes = ["Generic Function: no candidate type"]
+
+[[category]]
+id = "const_generic_unsupported"
+label = "Non-usize const generic"
+kani_variant = "GenericFn"
+axis = "coverage"
+umbrella = { repo = "model-checking/kani", number = 4889 }
+# The second prefix is emitted since kani#4820 (usize const generics whose `const {}`
+# block may reject the substituted value). #4889 scopes both cases to this umbrella.
+prefixes = [
+  "Generic Function: non-usize const generic parameters",
+  "Generic Function: the function has a `const {}` block",
+]
+
+[[category]]
+id = "requires_bounded_arguments"
+label = "Requires bounded arguments"
+kani_variant = "RequiresBoundedArguments"
+axis = "coverage"
+umbrella = { repo = "model-checking/kani", number = 4890 }
+prefixes = ["Requires --bounded-arguments for argument(s)"]
+args = true
+# Expected behaviour when the listing runs without --bounded-arguments.
+expected_behavior = true
+
+[[category]]
+id = "no_body"
+label = "No function body"
+kani_variant = "NoBody"
+axis = "coverage"
+umbrella = { repo = "model-checking/kani", number = 4891 }
+prefixes = ["The function does not have a body"]
+expected_behavior = true
+
+# Known Kani reasons that are deliberately NOT categories. They fail validation with
+# a specific explanation instead of a generic "unclassified" error.
+
+[[diagnostic]]
+prefixes = ["Did not match provided filters"]
+hint = "Kani UserFilter: the listing was run with --include-pattern/--exclude-pattern, so it is not a full-library measurement."
+
+[[diagnostic]]
+prefixes = ["Generic Function: not a function definition"]
+hint = "Kani GenericFn with detail 'not a function definition' (codegen_units.rs); no umbrella covers it yet. Decide a category before accepting this run."

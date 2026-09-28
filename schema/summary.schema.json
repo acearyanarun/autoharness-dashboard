@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:autoharness-data:summary:1",
+  "title": "summary.json",
+  "description": "Counts for one run. Percentages are left to consumers.",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^1\\.\\d+\\.\\d+$",
+      "description": "Contract version; consumers must accept any 1.x.y."
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "totals": {
+      "type": "object",
+      "properties": {
+        "candidates": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "generated": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "skipped": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "candidates",
+        "generated",
+        "skipped"
+      ],
+      "additionalProperties": false
+    },
+    "by_category": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "id",
+          "count"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "by_crate": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "crate": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_][A-Za-z0-9_-]*$"
+          },
+          "generated": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "skipped": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "crate",
+          "generated",
+          "skipped"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "not_observable": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "run_id",
+    "totals",
+    "by_category",
+    "by_crate",
+    "not_observable"
+  ],
+  "additionalProperties": false
+}

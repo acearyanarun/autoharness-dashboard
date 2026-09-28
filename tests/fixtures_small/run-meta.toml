@@ -1,0 +1,14 @@
+# Metadata for the synthetic listings in this directory. Not a real run.
+run_id = "synthetic-all-variants"
+provenance = "manual"
+finished_at = "2026-01-01"
+target = "x86_64-unknown-linux-gnu"
+
+[kani]
+commit = "0000000"
+
+[library]
+commit = "1111111"
+
+[flags]
+bounded_arguments = false

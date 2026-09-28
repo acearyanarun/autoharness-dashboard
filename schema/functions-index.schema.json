@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:autoharness-data:functions-index:1",
+  "title": "functions/index.json",
+  "description": "One entry per crate shard; load shards on demand.",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^1\\.\\d+\\.\\d+$",
+      "description": "Contract version; consumers must accept any 1.x.y."
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "crates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "crate": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_][A-Za-z0-9_-]*$"
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^functions/[A-Za-z0-9_][A-Za-z0-9_-]*\\.json$"
+          },
+          "generated": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "skipped": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "crate",
+          "path",
+          "generated",
+          "skipped"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "run_id",
+    "crates"
+  ],
+  "additionalProperties": false
+}

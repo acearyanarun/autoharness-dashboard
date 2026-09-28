@@ -1,0 +1,34 @@
+# Hand-entered metadata for the 2026-09-17 baseline. Only values with a recorded source
+# are filled in; see PROVENANCE.md. Unknown values are omitted rather than guessed.
+
+run_id = "baseline-2026-09-17-x86_64"
+provenance = "manual"
+finished_at = "2026-09-17"
+duration_seconds = 4380          # 73 minutes (R1 baseline report; practicum dashboard notes)
+# command: the exact command line is not recorded here yet. Practicum's notes describe it as
+# "kani autoharness --list --std over the library with the unstable feature flags, without
+# --bounded-arguments". Fill in the verbatim command when the original listing is located.
+
+target = "x86_64-unknown-linux-gnu"
+
+[kani]
+commit = "02abb5b0d"             # short SHA; full SHA and reachable remote still unknown
+version = "0.67.0"
+# ref/repo: unknown. 02abb5b0d = b07abe8a7 + two compatibility commits + kani#4799,
+# kani#4801 and a local workaround for kani#4794 (practicum notes).
+
+[library]
+repo = "model-checking/verify-rust-std"
+ref = "sync-2026-08-21"
+commit = "9b38cdc4d84"           # short SHA, plus the team's local workarounds (not captured)
+
+[toolchain]
+channel = "nightly-2026-08-21"
+
+[flags]
+bounded_arguments = false
+
+[host]
+os = "linux"
+arch = "x86_64"
+memory_gb = 47

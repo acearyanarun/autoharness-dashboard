@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:autoharness-data:categories:1",
+  "title": "categories.json",
+  "description": "Skip-reason categories used by summary.json and the function shards, in display-neutral config order.",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^1\\.\\d+\\.\\d+$",
+      "description": "Contract version; consumers must accept any 1.x.y."
+    },
+    "categories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "label": {
+            "type": "string"
+          },
+          "kani_variant": {
+            "type": "string"
+          },
+          "axis": {
+            "enum": [
+              "coverage",
+              "reliability"
+            ]
+          },
+          "expected_behavior": {
+            "type": "boolean"
+          },
+          "umbrella": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "repo": {
+                "type": "string"
+              },
+              "number": {
+                "type": "integer"
+              },
+              "url": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "repo",
+              "number",
+              "url"
+            ],
+            "additionalProperties": false
+          },
+          "match_prefixes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "kani_variant",
+          "axis",
+          "expected_behavior",
+          "umbrella",
+          "match_prefixes"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "categories"
+  ],
+  "additionalProperties": false
+}

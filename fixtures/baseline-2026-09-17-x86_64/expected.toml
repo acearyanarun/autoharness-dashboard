@@ -1,0 +1,32 @@
+# Golden expectations for the 2026-09-17 x86_64 controlled baseline.
+# Sources are recorded in PROVENANCE.md. Every number here must be reproduced exactly.
+
+[totals]
+candidates = 41233
+generated = 26975
+skipped = 14258
+
+[categories]
+missing_arbitrary = 6869
+generic_no_candidate = 4511
+const_generic_unsupported = 1581
+requires_bounded_arguments = 1102
+no_body = 195
+
+[crates.core]
+generated = 19337
+skipped = 5772
+
+[crates.alloc]
+generated = 1124
+skipped = 1839
+
+[crates.std]
+generated = 1254
+skipped = 2541
+
+# All other crates together (practicum's "dependencies" row). Checked by
+# tests/test_golden_baseline.py, not by the generator, because the rollup is presentation.
+[other_crates_total]
+generated = 5260
+skipped = 4106

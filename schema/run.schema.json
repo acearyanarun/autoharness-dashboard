@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:autoharness-data:run:1",
+  "title": "run.json",
+  "description": "What was measured and how. Two runs are comparable only when comparability_key is equal.",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^1\\.\\d+\\.\\d+$",
+      "description": "Contract version; consumers must accept any 1.x.y."
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "provenance": {
+      "enum": [
+        "ci",
+        "manual"
+      ]
+    },
+    "finished_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "duration_seconds": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "kani": {
+      "type": "object",
+      "properties": {
+        "repo": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{7,40}$"
+        },
+        "commit_is_full": {
+          "type": "boolean"
+        },
+        "version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "repo",
+        "ref",
+        "commit",
+        "commit_is_full",
+        "version"
+      ],
+      "additionalProperties": false
+    },
+    "library": {
+      "type": "object",
+      "properties": {
+        "repo": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{7,40}$"
+        },
+        "commit_is_full": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "repo",
+        "ref",
+        "commit",
+        "commit_is_full"
+      ],
+      "additionalProperties": false
+    },
+    "toolchain": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "target": {
+      "type": "string"
+    },
+    "flags": {
+      "type": "object",
+      "properties": {
+        "bounded_arguments": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "bounded_arguments"
+      ],
+      "additionalProperties": false
+    },
+    "command": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "host": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "workflow_url": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "adapter": {
+      "type": "string"
+    },
+    "source_files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "role",
+          "name",
+          "sha256"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "comparability_key": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{16}$"
+    }
+  },
+  "required": [
+    "schema_version",
+    "run_id",
+    "provenance",
+    "finished_at",
+    "duration_seconds",
+    "kani",
+    "library",
+    "toolchain",
+    "target",
+    "flags",
+    "command",
+    "host",
+    "workflow_url",
+    "adapter",
+    "source_files",
+    "comparability_key"
+  ],
+  "additionalProperties": false
+}

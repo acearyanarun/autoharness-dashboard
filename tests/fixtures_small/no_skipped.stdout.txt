@@ -1,0 +1,9 @@
+
+Kani generated automatic harnesses for 1 function(s):
++-------+-----------------------------+
+| Crate | Selected Function           |
++=====================================+
+| core  | num::<impl u8>::checked_add |
++-------+-----------------------------+
+
+Skipped Functions: None. Kani generated automatic harnesses for all functions in the available crate(s).

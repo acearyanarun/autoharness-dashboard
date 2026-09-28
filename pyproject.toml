@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "autoharness-data"
+version = "0.1.0"
+description = "Turns Kani AutoHarness output into validated, versioned JSON for any dashboard"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT OR Apache-2.0" }
+# Runtime has no third-party dependencies on purpose: the generator must run
+# anywhere a GitHub runner has Python 3.11+, without a package install step.
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "jsonschema>=4.18"]
+
+[project.scripts]
+autoharness-data = "autoharness_data.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["generator"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["generator", "tests"]

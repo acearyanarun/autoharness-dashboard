@@ -1,0 +1,54 @@
+name: CI
+
+# Phase 1 CI: tests the ingestion pipeline against fixtures. It never builds or runs Kani;
+# the measurement workflow (explicit kani_ref / library_ref inputs) arrives in Phase 2.
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install (dev extras only; the generator itself has no dependencies)
+        run: python -m pip install -e '.[dev]'
+
+      - name: Tests
+        run: python -m pytest -rs
+
+      - name: Generator runs without third-party packages
+        # The stdlib-only promise: build the synthetic fixture in a clean venv.
+        run: |
+          python -m venv /tmp/bare
+          /tmp/bare/bin/python -m autoharness_data build \
+            --listing tests/fixtures_small/all_variants.stdout.txt \
+            --run-meta tests/fixtures_small/run-meta.toml \
+            --out /tmp/data
+        env:
+          PYTHONPATH: generator
+
+      - name: Verify published layout
+        run: python -m autoharness_data verify --data /tmp/data
+
+      - name: Upload example data
+        if: matrix.python == '3.11'
+        uses: actions/upload-artifact@v4
+        with:
+          name: example-data
+          path: /tmp/data
+          retention-days: 7
