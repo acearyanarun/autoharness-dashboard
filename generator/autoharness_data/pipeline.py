@@ -7,7 +7,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from . import SCHEMA_VERSION, adapters, build, classify, config as config_mod, runmeta, validate
+from . import SCHEMA_VERSION, adapters, build, classify, config as config_mod, resources, runmeta, validate
 from .model import Classified, Listing, Unclassified
 
 
@@ -37,7 +37,7 @@ def assemble(
     cfg: config_mod.Config,
     run: dict,
     expect: Path | None = None,
-    schema_dir: Path = validate.SCHEMA_DIR,
+    schema_dir: resources.Dir | None = None,
 ) -> dict[str, dict]:
     """Build every document including validation.json (manifest is added by emit)."""
     run_id = run["run_id"]
@@ -65,13 +65,15 @@ def run_build(
     *,
     listing_path: Path,
     run_meta_path: Path,
-    config_dir: Path,
+    config_dir: resources.Dir | None = None,
     kani_list_path: Path | None = None,
     expect: Path | None = None,
     adapter: str = adapters.DEFAULT,
-    schema_dir: Path = validate.SCHEMA_DIR,
+    schema_dir: resources.Dir | None = None,
 ) -> dict[str, dict]:
-    cfg = config_mod.load(config_dir)
+    # Fail before any work if schema validation would be impossible.
+    resources.require_validator()
+    cfg = config_mod.load(config_dir if config_dir is not None else resources.config_dir())
     meta = runmeta.load(run_meta_path)
     listing = adapters.ADAPTERS[adapter](read_text(listing_path))
     functions, unclassified = classify.classify(listing.entries, cfg)

@@ -11,7 +11,7 @@ from support.ascii_full import listing
 
 @pytest.mark.parametrize("name", ["cargo_autoharness_filter.expected", "cargo_autoharness_include.expected"])
 def test_renderer_matches_kani_output_exactly(name):
-    text = (UPSTREAM / name).read_text()
+    text = (UPSTREAM / name).read_text(encoding="utf-8")
     parsed = adapter.parse(text)
     gen = [(e.crate, e.function) for e in parsed.entries if e.status == "generated"]
     skip = [(e.crate, e.function, e.reason) for e in parsed.entries if e.status == "skipped"]
@@ -23,6 +23,6 @@ def test_renderer_matches_kani_output_exactly(name):
 
 @pytest.mark.parametrize("name", sorted(small_fixtures.FIXTURES))
 def test_checked_in_fixture_is_current(name):
-    assert (SMALL / name).read_text() == small_fixtures.FIXTURES[name](), (
+    assert (SMALL / name).read_text(encoding="utf-8") == small_fixtures.FIXTURES[name](), (
         "regenerate with: cd tests && python -m support.small_fixtures"
     )

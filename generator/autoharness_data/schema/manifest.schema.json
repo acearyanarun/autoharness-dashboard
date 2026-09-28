@@ -34,7 +34,9 @@
       "type": [
         "string",
         "null"
-      ]
+      ],
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,6})?Z)?$",
+      "description": "Copied from run.json finished_at (never the wall clock). ISO-8601: a date (YYYY-MM-DD) or a UTC datetime (YYYY-MM-DDTHH:MM:SS[.ffffff]Z). null when unknown."
     },
     "status": {
       "enum": [

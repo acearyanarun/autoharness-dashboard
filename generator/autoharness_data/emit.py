@@ -8,7 +8,8 @@ from pathlib import Path
 
 from . import SCHEMA_VERSION, __version__
 from .build import CRATE_FILE_NAME
-from .validate import schema_for
+from . import resources
+from .validate import schema_checks, schema_for
 
 
 def serialize(path: str, doc: dict) -> bytes:
@@ -40,8 +41,13 @@ def manifest_doc(run: dict, status: str, blobs: dict[str, bytes]) -> dict:
     }
 
 
-def write(out_dir: Path, docs: dict[str, dict]) -> dict[str, bytes]:
-    """Serialize and write all documents plus manifest.json. Returns the written bytes."""
+def write(out_dir: Path, docs: dict[str, dict], schema_dir: resources.Dir | None = None) -> dict[str, bytes]:
+    """Serialize and write all documents plus manifest.json. Returns the written bytes.
+
+    Every other document was schema-checked during assembly, and the result is recorded in
+    validation.json. validation.json and manifest.json can't check themselves, so they are
+    checked here before anything is written. If either fails, that is a generator bug: raise.
+    """
     out_dir = Path(out_dir)
     blobs: dict[str, bytes] = {}
     for path, doc in docs.items():
@@ -53,6 +59,11 @@ def write(out_dir: Path, docs: dict[str, dict]) -> dict[str, bytes]:
 
     manifest = manifest_doc(docs["run.json"], docs["validation.json"]["status"], blobs)
     blobs["manifest.json"] = serialize("manifest.json", manifest)
+
+    self_checks = schema_checks({"validation.json": docs["validation.json"], "manifest.json": manifest}, schema_dir)
+    broken = [c.message for c in self_checks if c.status != "pass"]
+    if broken:
+        raise RuntimeError("internal error, refusing to write: " + "; ".join(broken))
 
     for path, data in blobs.items():
         target = out_dir / path

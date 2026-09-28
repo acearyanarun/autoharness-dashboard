@@ -24,7 +24,9 @@
       "type": [
         "string",
         "null"
-      ]
+      ],
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,6})?Z)?$",
+      "description": "ISO-8601: a date (YYYY-MM-DD) or a UTC datetime (YYYY-MM-DDTHH:MM:SS[.ffffff]Z). null when unknown."
     },
     "duration_seconds": {
       "type": [
@@ -133,7 +135,39 @@
       "type": [
         "object",
         "null"
-      ]
+      ],
+      "description": "Machine that ran Kani. Unknown values are null.",
+      "properties": {
+        "os": {
+          "type": "string",
+          "minLength": 1
+        },
+        "arch": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cpus": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "memory_gb": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "exclusiveMinimum": 0
+        }
+      },
+      "required": [
+        "os",
+        "arch",
+        "cpus",
+        "memory_gb"
+      ],
+      "additionalProperties": false
     },
     "workflow_url": {
       "type": [

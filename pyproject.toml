@@ -9,18 +9,23 @@ description = "Turns Kani AutoHarness output into validated, versioned JSON for 
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT OR Apache-2.0" }
-# Runtime has no third-party dependencies on purpose: the generator must run
-# anywhere a GitHub runner has Python 3.11+, without a package install step.
-dependencies = []
+# jsonschema is required at runtime: every build and verify validates its output against
+# the bundled JSON schemas, and refuses to run (exit 2) if the validator is unavailable.
+dependencies = ["jsonschema>=4.18"]
 
 [project.optional-dependencies]
-dev = ["pytest>=8", "jsonschema>=4.18"]
+dev = ["pytest>=8", "setuptools>=70.1"]  # setuptools: test_install.py builds a wheel offline
 
 [project.scripts]
 autoharness-data = "autoharness_data.__main__:main"
 
 [tool.setuptools.packages.find]
 where = ["generator"]
+
+# The category config and JSON schemas ship inside the package and are loaded with
+# importlib.resources, so an installed package does not depend on a source checkout.
+[tool.setuptools.package-data]
+autoharness_data = ["config/*.toml", "schema/*.schema.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -84,7 +84,7 @@ FIXTURES = {
 def main() -> None:
     HERE.mkdir(exist_ok=True)
     for name, fn in FIXTURES.items():
-        (HERE / name).write_text(fn())
+        (HERE / name).write_text(fn(), encoding="utf-8")
         print(f"wrote {HERE / name}")
 
 

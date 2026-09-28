@@ -7,11 +7,9 @@ import tomllib
 from collections import Counter
 from pathlib import Path
 
-from . import SCHEMA_VERSION
+from . import SCHEMA_VERSION, resources
 from .build import CRATE_FILE_NAME
 from .model import Check, Classified, Listing, Unclassified
-
-SCHEMA_DIR = Path(__file__).resolve().parents[2] / "schema"
 
 
 def _check(checks, cid, ok, message, expected=None, actual=None, severity="error"):
@@ -81,21 +79,21 @@ def data_checks(functions: list[Classified], unclassified: list[Unclassified], d
     return checks
 
 
-def schema_checks(docs: dict, schema_dir: Path = SCHEMA_DIR) -> list[Check]:
-    """Validate every document against schema/. Needs the optional jsonschema package."""
-    try:
-        import jsonschema  # noqa: PLC0415 - optional dependency
-    except ImportError:
-        return [Check("schema.valid", "warning", "skipped",
-                      "jsonschema is not installed; install the 'dev' extra to validate against schema/")]
+def schema_checks(docs: dict, schema_dir: resources.Dir | None = None) -> list[Check]:
+    """Validate every document against its JSON Schema. Mandatory: raises
+    resources.ValidatorUnavailable instead of skipping when jsonschema is missing."""
+    jsonschema = resources.require_validator()
+    schema_dir = schema_dir if schema_dir is not None else resources.schema_dir()
     checks: list[Check] = []
     for path, doc in sorted(docs.items()):
         schema_name = schema_for(path)
-        schema = json.loads((Path(schema_dir) / schema_name).read_text())
+        schema = json.loads((schema_dir / schema_name).read_text(encoding="utf-8"))
         errors = sorted(jsonschema.Draft202012Validator(schema).iter_errors(doc), key=lambda e: list(e.path))
+        # No expected/actual here: the message itself names the first violation and its location.
         _check(checks, f"schema.valid:{path}", not errors,
-               f"{path} matches {schema_name}" + ("" if not errors else f": {errors[0].message} at {list(errors[0].path)}"),
-               0, len(errors))
+               f"{path} matches {schema_name}"
+               + ("" if not errors else f": {errors[0].message} at {list(errors[0].path)}"
+                  + (f" (+{len(errors) - 1} more)" if len(errors) > 1 else "")))
     return checks
 
 
@@ -116,8 +114,7 @@ def expectation_checks(path: Path | None, docs: dict) -> list[Check]:
     """Compare against a golden expectations file (fixtures/<run>/expected.toml)."""
     if path is None:
         return []
-    with open(path, "rb") as fh:
-        exp = tomllib.load(fh)
+    exp = tomllib.loads(Path(path).read_text(encoding="utf-8"))
     s = docs["summary.json"]
     checks: list[Check] = []
     for key, want in exp.get("totals", {}).items():

@@ -7,8 +7,9 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-CONFIG = ROOT / "config"
-SCHEMA = ROOT / "schema"
+PACKAGE = ROOT / "generator" / "autoharness_data"
+CONFIG = PACKAGE / "config"
+SCHEMA = PACKAGE / "schema"
 SMALL = ROOT / "tests" / "fixtures_small"
 UPSTREAM = ROOT / "fixtures" / "kani-upstream"
 BASELINE = ROOT / "fixtures" / "baseline-2026-09-17-x86_64"
@@ -46,6 +47,5 @@ def small_run_meta(tmp_path):
         'run_id = "synthetic"\nprovenance = "manual"\nfinished_at = "2026-01-01"\n'
         'target = "x86_64-unknown-linux-gnu"\n'
         '[kani]\ncommit = "0000000"\n[library]\ncommit = "1111111"\n'
-        "[flags]\nbounded_arguments = false\n"
-    )
+        "[flags]\nbounded_arguments = false\n", encoding="utf-8")
     return p

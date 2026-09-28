@@ -1,6 +1,7 @@
 # Data contract (schema v1)
 
-A frontend needs only this document and `schema/`. It must not parse Kani output.
+A frontend needs only this document and the schemas in `generator/autoharness_data/schema/`.
+It must not parse Kani output.
 
 ## Rules for consumers
 
@@ -16,12 +17,21 @@ A frontend needs only this document and `schema/`. It must not parse Kani output
 | File | Purpose | Size (2026-09-17 baseline) |
 |---|---|---|
 | `manifest.json` | Run id, status, generator version, and every file with bytes + sha256 | < 2 KB |
-| `run.json` | What was measured: Kani/library repo, ref, commit, toolchain, target, flags, host, command, workflow URL, source-file hashes, `comparability_key` | < 2 KB |
+| `run.json` | What was measured: Kani/library repo, ref, commit, toolchain, target, flags, host, command, workflow URL, source-file hashes, `comparability_key`. `finished_at` and `host` are defined below. | < 2 KB |
 | `categories.json` | Category ids, labels, Kani variant, axis, umbrella issue, `expected_behavior`, match prefixes | 2 KB |
 | `summary.json` | Totals, count per category (all categories, zeros included), count per crate | 2 KB |
 | `functions/index.json` | One entry per crate shard, with counts | 2 KB |
 | `functions/<crate>.json` | Every listed function of the crate: `name`, `status`; if skipped, `category`, verbatim `detail`, and `args` when they parse unambiguously | core 3.2 MB (≈150 KB gzipped) |
 | `validation.json` | Every check with id, severity, status, expected and actual | < 10 KB |
+
+## Field formats
+
+- `run.json` `finished_at` and `manifest.json` `generated_at`: ISO-8601. Either a calendar date
+  (`2026-09-17`) or a UTC datetime (`2026-09-17T18:05:00Z`, optionally with fractional
+  seconds), or `null` when unknown. Run metadata may give any timezone offset; it is
+  converted to UTC. A datetime without a timezone is rejected.
+- `run.json` `host`: `null`, or exactly `{"os": string, "arch": string, "cpus": integer ≥ 1 | null,
+  "memory_gb": number > 0 | null}`. Unknown values are `null`; other keys are rejected.
 
 ## Guarantees the validator enforces
 
@@ -29,7 +39,8 @@ A frontend needs only this document and `schema/`. It must not parse Kani output
 - generated + skipped = candidates, and the category and crate counts add up to the totals.
 - Every skipped function is in exactly one configured category. Unknown Kani wording fails.
 - No duplicate `(crate, function)` pairs, and crate names are safe file names.
-- Every file validates against its schema, and `verify` re-checks the hashes after publishing.
+- Every file validates against its schema. This is mandatory: without `jsonschema`, `build` and
+  `verify` exit 2 instead of skipping it. `verify` also re-checks the hashes after publishing.
 - Rebuilding from the same inputs produces byte-identical output: no wall-clock timestamps,
   and ordering is stable.
 

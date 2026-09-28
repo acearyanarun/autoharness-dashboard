@@ -1,11 +1,11 @@
-"""Load and sanity-check config/categories.toml."""
+"""Load and sanity-check the category config (bundled config/categories.toml by default)."""
 
 from __future__ import annotations
 
 import re
 import tomllib
 from dataclasses import dataclass
-from pathlib import Path
+from .resources import Dir
 
 _ID = re.compile(r"^[a-z][a-z0-9_]*$")
 
@@ -39,10 +39,9 @@ class ConfigError(ValueError):
     pass
 
 
-def load(config_dir: Path) -> Config:
-    path = Path(config_dir) / "categories.toml"
-    with open(path, "rb") as fh:
-        raw = tomllib.load(fh)
+def load(config_dir: Dir) -> Config:
+    path = config_dir / "categories.toml"
+    raw = tomllib.loads(path.read_bytes().decode("utf-8"))
     if raw.get("config_version") != 1:
         raise ConfigError(f"{path}: unsupported config_version {raw.get('config_version')!r}")
 

@@ -13,9 +13,7 @@ import json
 import sys
 from pathlib import Path
 
-from . import adapters, emit, pipeline, validate
-
-REPO = Path(__file__).resolve().parents[2]
+from . import adapters, emit, pipeline, resources, validate
 
 
 def _build(args) -> int:
@@ -28,28 +26,32 @@ def _build(args) -> int:
         adapter=args.adapter,
         schema_dir=args.schema_dir,
     )
-    emit.write(args.out, docs)
+    emit.write(args.out, docs, args.schema_dir)
     v = docs["validation.json"]
     t = docs["summary.json"]["totals"]
     print(f"wrote {args.out}: {t['candidates']} candidates, {t['generated']} generated, {t['skipped']} skipped")
     for c in v["checks"]:
         if c["status"] != "pass":
-            print(f"  [{c['severity']}:{c['status']}] {c['id']}: {c['message']}")
+            numbers = ""
+            if "expected" in c or "actual" in c:
+                numbers = f" (expected {c.get('expected')!r}, actual {c.get('actual')!r})"
+            print(f"  [{c['severity']}:{c['status']}] {c['id']}: {c['message']}{numbers}")
     print(f"validation: {v['status']} ({v['counts']})")
     return 0 if v["status"] == "pass" else 1
 
 
 def _verify(args) -> int:
     """Check a published data/ directory: hashes, schemas, and cross-file consistency."""
+    resources.require_validator()
     root = Path(args.data)
-    manifest = json.loads((root / "manifest.json").read_text())
+    manifest = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
     problems = []
     docs = {}
     for f in manifest["files"]:
         data = (root / f["path"]).read_bytes()
         if hashlib.sha256(data).hexdigest() != f["sha256"]:
             problems.append(f"{f['path']}: sha256 does not match manifest")
-        docs[f["path"]] = json.loads(data)
+        docs[f["path"]] = json.loads(data.decode("utf-8"))
     checks = validate.schema_checks({**docs, "manifest.json": manifest}, args.schema_dir)
     problems += [c.message for c in checks if c.status == "fail"]
     if manifest["status"] != "pass":
@@ -68,8 +70,8 @@ def main(argv: list[str] | None = None) -> int:
     b.add_argument("--listing", type=Path, required=True, help="Kani autoharness stdout (.txt or .gz)")
     b.add_argument("--run-meta", type=Path, required=True, help="run metadata TOML")
     b.add_argument("--kani-list", type=Path, help="kani-list.json from the same run (for the Kani version)")
-    b.add_argument("--config", type=Path, default=REPO / "config")
-    b.add_argument("--schema-dir", type=Path, default=REPO / "schema")
+    b.add_argument("--config", type=Path, default=None, help="override the bundled category config directory")
+    b.add_argument("--schema-dir", type=Path, default=None, help="override the bundled JSON schema directory")
     b.add_argument("--expect", type=Path, help="golden expectations TOML to enforce")
     b.add_argument("--adapter", default=adapters.DEFAULT, choices=sorted(adapters.ADAPTERS))
     b.add_argument("--out", type=Path, required=True)
@@ -77,12 +79,15 @@ def main(argv: list[str] | None = None) -> int:
 
     v = sub.add_parser("verify", help="check a published data/ directory")
     v.add_argument("--data", type=Path, required=True)
-    v.add_argument("--schema-dir", type=Path, default=REPO / "schema")
+    v.add_argument("--schema-dir", type=Path, default=None, help="override the bundled JSON schema directory")
     v.set_defaults(func=_verify)
 
     args = p.parse_args(argv)
     try:
         return args.func(args)
+    except resources.ValidatorUnavailable as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
     except (OSError, ValueError, KeyError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2

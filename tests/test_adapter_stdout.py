@@ -10,7 +10,7 @@ from support.ascii_full import listing, table
 
 
 def parse_file(path):
-    return adapter.parse(path.read_text())
+    return adapter.parse(path.read_text(encoding="utf-8"))
 
 
 # --- real Kani output (Kani's own test expectations) ------------------------------------
@@ -50,7 +50,7 @@ def test_all_variants_fixture():
 
 
 def test_line_numbers_point_at_rows():
-    text = (SMALL / "all_variants.stdout.txt").read_text()
+    text = (SMALL / "all_variants.stdout.txt").read_text(encoding="utf-8")
     lines = text.splitlines()
     for e in parse_file(SMALL / "all_variants.stdout.txt").entries:
         assert e.function in lines[e.line - 1]

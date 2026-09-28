@@ -17,7 +17,7 @@ The `GenericFn` details come from `kani-compiler/src/kani_middle/codegen_units.r
 parameters are not supported yet", "the function has a `const {}` block …" (added in kani#4820,
 after the 2026-09-17 baseline), and "not a function definition".
 
-## Mapping (config/categories.toml)
+## Mapping (`generator/autoharness_data/config/categories.toml`)
 
 | Category id | Umbrella | Reason prefix(es) |
 |---|---|---|

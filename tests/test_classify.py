@@ -32,7 +32,7 @@ def test_known_reasons(reason, category, cfg):
 
 def test_reasons_from_kani_test_suite(cfg):
     # Row fragments from Kani's generics test: the reason is the third cell.
-    rows = [l.split(" | ", 2) for l in (UPSTREAM / "cargo_autoharness_generics.expected").read_text().splitlines()
+    rows = [l.split(" | ", 2) for l in (UPSTREAM / "cargo_autoharness_generics.expected").read_text(encoding="utf-8").splitlines()
             if "Generic Function:" in l]
     assert len(rows) == 6
     for _, fn, reason in rows:
@@ -90,8 +90,9 @@ def test_split_args(text, expected):
 
 def test_config_rejects_overlapping_prefixes(tmp_path):
     (tmp_path / "categories.toml").write_text(
-        (CONFIG / "categories.toml").read_text()
-        + '\n[[category]]\nid = "shadow"\nlabel = "x"\nkani_variant = "GenericFn"\nprefixes = ["Generic Function: no"]\n'
+        (CONFIG / "categories.toml").read_text(encoding="utf-8")
+        + '\n[[category]]\nid = "shadow"\nlabel = "x"\nkani_variant = "GenericFn"\nprefixes = ["Generic Function: no"]\n',
+        encoding="utf-8",
     )
     with pytest.raises(config_mod.ConfigError, match="overlaps"):
         config_mod.load(tmp_path)

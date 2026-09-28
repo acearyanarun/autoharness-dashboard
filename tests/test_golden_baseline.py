@@ -59,7 +59,7 @@ def test_totals_and_categories_match_r1(golden_build):
 
 def test_per_crate_and_other_crates_rollup(golden_build):
     _, _, docs = golden_build
-    exp = tomllib.loads(EXPECTED.read_text())
+    exp = tomllib.loads(EXPECTED.read_text(encoding="utf-8"))
     crates = {c["crate"]: c for c in docs["summary.json"]["by_crate"]}
     for name, want in exp["crates"].items():
         assert {k: crates[name][k] for k in want} == want

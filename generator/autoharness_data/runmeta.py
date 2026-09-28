@@ -7,6 +7,7 @@ value traceable to a source recorded in that fixture's PROVENANCE.md.
 
 from __future__ import annotations
 
+import datetime as dt
 import hashlib
 import json
 import re
@@ -21,9 +22,63 @@ class RunMetaError(ValueError):
     pass
 
 
+# finished_at: an ISO-8601 calendar date ("2026-09-17") or a datetime with an explicit
+# timezone ("2026-09-17T18:05:00Z", "2026-09-17T11:05:00-07:00"). A datetime without a
+# timezone is rejected because it is ambiguous. Output is normalised: dates stay dates,
+# datetimes are converted to UTC and written with a trailing "Z".
+FINISHED_AT_PATTERN = r"^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}(\.\d{1,6})?Z)?$"
+HOST_KEYS = ("os", "arch", "cpus", "memory_gb")
+
+
+def normalize_finished_at(value, where: str) -> str | None:
+    if value is None:
+        return None
+    if isinstance(value, dt.datetime):  # unquoted TOML datetime
+        parsed = value
+    elif isinstance(value, dt.date):  # unquoted TOML date
+        return value.isoformat()
+    elif isinstance(value, str):
+        if re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
+            try:
+                return dt.date.fromisoformat(value).isoformat()
+            except ValueError as exc:
+                raise RunMetaError(f"{where}: finished_at {value!r} is not a valid date") from exc
+        try:
+            parsed = dt.datetime.fromisoformat(value.replace("Z", "+00:00"))
+        except ValueError as exc:
+            raise RunMetaError(
+                f"{where}: finished_at {value!r} is not ISO-8601 (use YYYY-MM-DD or YYYY-MM-DDTHH:MM:SSZ)"
+            ) from exc
+    else:
+        raise RunMetaError(f"{where}: finished_at must be an ISO-8601 string, got {type(value).__name__}")
+    if parsed.tzinfo is None:
+        raise RunMetaError(f"{where}: finished_at {value!s} has no timezone; add 'Z' or an offset")
+    return parsed.astimezone(dt.timezone.utc).isoformat().replace("+00:00", "Z")
+
+
+def normalize_host(value, where: str) -> dict | None:
+    """host is {os, arch, cpus, memory_gb}; unknown values are null, unknown keys rejected."""
+    if value is None:
+        return None
+    if not isinstance(value, dict):
+        raise RunMetaError(f"{where}: host must be a table")
+    extra = sorted(set(value) - set(HOST_KEYS))
+    if extra:
+        raise RunMetaError(f"{where}: unknown host key(s) {extra}; allowed: {list(HOST_KEYS)}")
+    for key in ("os", "arch"):
+        if not isinstance(value.get(key), str) or not value[key]:
+            raise RunMetaError(f"{where}: host.{key} is required and must be a non-empty string")
+    cpus = value.get("cpus")
+    if cpus is not None and (not isinstance(cpus, int) or isinstance(cpus, bool) or cpus < 1):
+        raise RunMetaError(f"{where}: host.cpus must be a positive integer")
+    mem = value.get("memory_gb")
+    if mem is not None and (not isinstance(mem, (int, float)) or isinstance(mem, bool) or mem <= 0):
+        raise RunMetaError(f"{where}: host.memory_gb must be a positive number")
+    return {"os": value["os"], "arch": value["arch"], "cpus": cpus, "memory_gb": mem}
+
+
 def load(path: Path) -> dict:
-    with open(path, "rb") as fh:
-        m = tomllib.load(fh)
+    m = tomllib.loads(Path(path).read_text(encoding="utf-8"))
 
     def need(obj: dict, key: str, where: str):
         if key not in obj:
@@ -41,6 +96,8 @@ def load(path: Path) -> dict:
             raise RunMetaError(f"{path}: {section}.commit {commit!r} is not a hex git SHA")
     need(m, "target", "")
     need(need(m, "flags", ""), "bounded_arguments", "flags.")
+    m["finished_at"] = normalize_finished_at(m.get("finished_at"), str(path))
+    m["host"] = normalize_host(m.get("host"), str(path))
     return m
 
 
