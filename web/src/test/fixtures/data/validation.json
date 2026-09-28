@@ -1,0 +1,152 @@
+{
+  "schema_version": "1.0.0",
+  "run_id": "synthetic-all-variants",
+  "status": "pass",
+  "counts": {
+    "pass": 19,
+    "fail": 0,
+    "skipped": 0
+  },
+  "checks": [
+    {
+      "id": "listing.generated_header",
+      "severity": "error",
+      "status": "pass",
+      "message": "Kani's 'generated automatic harnesses for N' line (or 'Selected Functions: None') is present"
+    },
+    {
+      "id": "listing.skipped_header",
+      "severity": "error",
+      "status": "pass",
+      "message": "Kani's 'did not generate automatic harnesses for M' line (or 'Skipped Functions: None') is present"
+    },
+    {
+      "id": "listing.generated_rows_match_header",
+      "severity": "error",
+      "status": "pass",
+      "message": "generated table rows equal the count Kani announced",
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "id": "listing.skipped_rows_match_header",
+      "severity": "error",
+      "status": "pass",
+      "message": "skipped table rows equal the count Kani announced",
+      "expected": 10,
+      "actual": 10
+    },
+    {
+      "id": "functions.unique",
+      "severity": "error",
+      "status": "pass",
+      "message": "no (crate, function) pair appears twice",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "id": "functions.nonempty_names",
+      "severity": "error",
+      "status": "pass",
+      "message": "every row has a crate and a function name",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "id": "functions.crate_names_safe",
+      "severity": "error",
+      "status": "pass",
+      "message": "crate names are safe file names (^[A-Za-z0-9_][A-Za-z0-9_-]*$)",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "classification.complete",
+      "severity": "error",
+      "status": "pass",
+      "message": "every skipped function maps to exactly one configured category",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "id": "summary.partition",
+      "severity": "error",
+      "status": "pass",
+      "message": "generated + skipped = candidates",
+      "expected": 14,
+      "actual": 14
+    },
+    {
+      "id": "summary.categories_sum",
+      "severity": "error",
+      "status": "pass",
+      "message": "category counts add up to skipped",
+      "expected": 10,
+      "actual": 10
+    },
+    {
+      "id": "summary.crates_sum",
+      "severity": "error",
+      "status": "pass",
+      "message": "per-crate counts add up to the totals",
+      "expected": [
+        4,
+        10
+      ],
+      "actual": [
+        4,
+        10
+      ]
+    },
+    {
+      "id": "functions.shards_match_summary",
+      "severity": "error",
+      "status": "pass",
+      "message": "function shards contain exactly the summary's candidates",
+      "expected": 14,
+      "actual": 14
+    },
+    {
+      "id": "schema.valid:categories.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "categories.json matches categories.schema.json"
+    },
+    {
+      "id": "schema.valid:functions/alloc.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "functions/alloc.json matches functions-crate.schema.json"
+    },
+    {
+      "id": "schema.valid:functions/core.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "functions/core.json matches functions-crate.schema.json"
+    },
+    {
+      "id": "schema.valid:functions/index.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "functions/index.json matches functions-index.schema.json"
+    },
+    {
+      "id": "schema.valid:functions/std.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "functions/std.json matches functions-crate.schema.json"
+    },
+    {
+      "id": "schema.valid:run.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "run.json matches run.schema.json"
+    },
+    {
+      "id": "schema.valid:summary.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "summary.json matches summary.schema.json"
+    }
+  ]
+}

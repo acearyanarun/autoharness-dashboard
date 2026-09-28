@@ -3,6 +3,12 @@
 A frontend needs only this document and the schemas in `generator/autoharness_data/schema/`.
 It must not parse Kani output.
 
+## Consumers
+
+The reference consumer is the dashboard in `web/`. `web/src/data/contract.ts` mirrors these schemas in
+TypeScript, and `web/src/data/load.ts` applies the rules below. Any other UI can do the same; it never needs
+the generator.
+
 ## Rules for consumers
 
 1. Read `manifest.json` first. Only use data whose `status` is `"pass"`.

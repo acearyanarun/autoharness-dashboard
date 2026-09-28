@@ -1,0 +1,136 @@
+{
+  "schema_version": "1.0.0",
+  "run_id": "baseline-2026-09-17-x86_64",
+  "totals": {
+    "candidates": 41233,
+    "generated": 26975,
+    "skipped": 14258
+  },
+  "by_category": [
+    {
+      "id": "missing_arbitrary",
+      "count": 6869
+    },
+    {
+      "id": "generic_no_candidate",
+      "count": 4511
+    },
+    {
+      "id": "const_generic_unsupported",
+      "count": 1581
+    },
+    {
+      "id": "requires_bounded_arguments",
+      "count": 1102
+    },
+    {
+      "id": "no_body",
+      "count": 195
+    }
+  ],
+  "by_crate": [
+    {
+      "crate": "addr2line",
+      "generated": 5,
+      "skipped": 78
+    },
+    {
+      "crate": "adler2",
+      "generated": 11,
+      "skipped": 5
+    },
+    {
+      "crate": "alloc",
+      "generated": 1124,
+      "skipped": 1839
+    },
+    {
+      "crate": "compiler_builtins",
+      "generated": 1630,
+      "skipped": 42
+    },
+    {
+      "crate": "core",
+      "generated": 19337,
+      "skipped": 5772
+    },
+    {
+      "crate": "dummy",
+      "generated": 1,
+      "skipped": 0
+    },
+    {
+      "crate": "gimli",
+      "generated": 957,
+      "skipped": 1093
+    },
+    {
+      "crate": "hashbrown",
+      "generated": 242,
+      "skipped": 423
+    },
+    {
+      "crate": "libc",
+      "generated": 623,
+      "skipped": 130
+    },
+    {
+      "crate": "memchr",
+      "generated": 263,
+      "skipped": 240
+    },
+    {
+      "crate": "miniz_oxide",
+      "generated": 34,
+      "skipped": 30
+    },
+    {
+      "crate": "object",
+      "generated": 1025,
+      "skipped": 1779
+    },
+    {
+      "crate": "panic_abort",
+      "generated": 1,
+      "skipped": 1
+    },
+    {
+      "crate": "panic_unwind",
+      "generated": 2,
+      "skipped": 3
+    },
+    {
+      "crate": "proc_macro",
+      "generated": 321,
+      "skipped": 213
+    },
+    {
+      "crate": "rustc_demangle",
+      "generated": 12,
+      "skipped": 50
+    },
+    {
+      "crate": "rustc_literal_escaper",
+      "generated": 31,
+      "skipped": 19
+    },
+    {
+      "crate": "std",
+      "generated": 1254,
+      "skipped": 2541
+    },
+    {
+      "crate": "std_detect",
+      "generated": 99,
+      "skipped": 0
+    },
+    {
+      "crate": "unwind",
+      "generated": 3,
+      "skipped": 0
+    }
+  ],
+  "not_observable": {
+    "kani_impl": "Kani omits KaniImpl skips from its listing tables, so they are not counted here."
+  }
+}

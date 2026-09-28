@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "run_id": "baseline-2026-09-17-x86_64",
+  "provenance": "manual",
+  "finished_at": "2026-09-17",
+  "duration_seconds": 4380,
+  "kani": {
+    "repo": null,
+    "ref": null,
+    "commit": "02abb5b0d",
+    "commit_is_full": false,
+    "version": "0.67.0"
+  },
+  "library": {
+    "repo": "model-checking/verify-rust-std",
+    "ref": "sync-2026-08-21",
+    "commit": "9b38cdc4d84",
+    "commit_is_full": false
+  },
+  "toolchain": "nightly-2026-08-21",
+  "target": "x86_64-unknown-linux-gnu",
+  "flags": {
+    "bounded_arguments": false
+  },
+  "command": null,
+  "host": {
+    "os": "linux",
+    "arch": "x86_64",
+    "cpus": null,
+    "memory_gb": 47
+  },
+  "workflow_url": null,
+  "adapter": "per-function-json-v1",
+  "source_files": [
+    {
+      "role": "per_function_json",
+      "name": "practicum-autoharness-functions.json.gz",
+      "sha256": "6ef4792e6448e79edd64e5e86ff6b7b29785f9c4c094a8798983083ddf578ed4"
+    }
+  ],
+  "comparability_key": "40cbc943ee3e4f62"
+}

@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "run_id": "synthetic-all-variants",
+  "crates": [
+    {
+      "crate": "alloc",
+      "path": "functions/alloc.json",
+      "generated": 1,
+      "skipped": 1
+    },
+    {
+      "crate": "core",
+      "path": "functions/core.json",
+      "generated": 2,
+      "skipped": 8
+    },
+    {
+      "crate": "std",
+      "path": "functions/std.json",
+      "generated": 1,
+      "skipped": 1
+    }
+  ]
+}

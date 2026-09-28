@@ -78,7 +78,8 @@ def run_build(
     listing = adapters.ADAPTERS[adapter](read_text(listing_path))
     functions, unclassified = classify.classify(listing.entries, cfg)
 
-    source_files = [{"role": "listing", "name": Path(listing_path).name, "sha256": _sha256_file(listing_path)}]
+    role = "listing" if listing.has_kani_headers else "per_function_json"
+    source_files = [{"role": role, "name": Path(listing_path).name, "sha256": _sha256_file(listing_path)}]
     if kani_list_path is not None:
         source_files.append(
             {"role": "kani_list", "name": Path(kani_list_path).name, "sha256": _sha256_file(kani_list_path)}

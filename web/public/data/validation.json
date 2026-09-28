@@ -1,0 +1,356 @@
+{
+  "schema_version": "1.0.0",
+  "run_id": "baseline-2026-09-17-x86_64",
+  "status": "pass",
+  "counts": {
+    "pass": 43,
+    "fail": 0,
+    "skipped": 4
+  },
+  "checks": [
+    {
+      "id": "listing.generated_header",
+      "severity": "error",
+      "status": "skipped",
+      "message": "input adapter 'per-function-json-v1' has no Kani header counts to compare against"
+    },
+    {
+      "id": "listing.skipped_header",
+      "severity": "error",
+      "status": "skipped",
+      "message": "input adapter 'per-function-json-v1' has no Kani header counts to compare against"
+    },
+    {
+      "id": "listing.generated_rows_match_header",
+      "severity": "error",
+      "status": "skipped",
+      "message": "input adapter 'per-function-json-v1' has no Kani header counts to compare against"
+    },
+    {
+      "id": "listing.skipped_rows_match_header",
+      "severity": "error",
+      "status": "skipped",
+      "message": "input adapter 'per-function-json-v1' has no Kani header counts to compare against"
+    },
+    {
+      "id": "functions.unique",
+      "severity": "error",
+      "status": "pass",
+      "message": "no (crate, function) pair appears twice",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "id": "functions.nonempty_names",
+      "severity": "error",
+      "status": "pass",
+      "message": "every row has a crate and a function name",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "id": "functions.crate_names_safe",
+      "severity": "error",
+      "status": "pass",
+      "message": "crate names are safe file names (^[A-Za-z0-9_][A-Za-z0-9_-]*$)",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "classification.complete",
+      "severity": "error",
+      "status": "pass",
+      "message": "every skipped function maps to exactly one configured category",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "id": "summary.partition",
+      "severity": "error",
+      "status": "pass",
+      "message": "generated + skipped = candidates",
+      "expected": 41233,
+      "actual": 41233
+    },
+    {
+      "id": "summary.categories_sum",
+      "severity": "error",
+      "status": "pass",
+      "message": "category counts add up to skipped",
+      "expected": 14258,
+      "actual": 14258
+    },
+    {
+      "id": "summary.crates_sum",
+      "severity": "error",
+      "status": "pass",
+      "message": "per-crate counts add up to the totals",
+      "expected": [
+        26975,
+        14258
+      ],
+      "actual": [
+        26975,
+        14258
+      ]
+    },
+    {
+      "id": "functions.shards_match_summary",
+      "severity": "error",
+      "status": "pass",
+      "message": "function shards contain exactly the summary's candidates",
+      "expected": 41233,
+      "actual": 41233
+    },
+    {
+      "id": "expect.totals.candidates",
+      "severity": "error",
+      "status": "pass",
+      "message": "total candidates matches expected.toml",
+      "expected": 41233,
+      "actual": 41233
+    },
+    {
+      "id": "expect.totals.generated",
+      "severity": "error",
+      "status": "pass",
+      "message": "total generated matches expected.toml",
+      "expected": 26975,
+      "actual": 26975
+    },
+    {
+      "id": "expect.totals.skipped",
+      "severity": "error",
+      "status": "pass",
+      "message": "total skipped matches expected.toml",
+      "expected": 14258,
+      "actual": 14258
+    },
+    {
+      "id": "expect.categories.missing_arbitrary",
+      "severity": "error",
+      "status": "pass",
+      "message": "category missing_arbitrary matches expected.toml",
+      "expected": 6869,
+      "actual": 6869
+    },
+    {
+      "id": "expect.categories.generic_no_candidate",
+      "severity": "error",
+      "status": "pass",
+      "message": "category generic_no_candidate matches expected.toml",
+      "expected": 4511,
+      "actual": 4511
+    },
+    {
+      "id": "expect.categories.const_generic_unsupported",
+      "severity": "error",
+      "status": "pass",
+      "message": "category const_generic_unsupported matches expected.toml",
+      "expected": 1581,
+      "actual": 1581
+    },
+    {
+      "id": "expect.categories.requires_bounded_arguments",
+      "severity": "error",
+      "status": "pass",
+      "message": "category requires_bounded_arguments matches expected.toml",
+      "expected": 1102,
+      "actual": 1102
+    },
+    {
+      "id": "expect.categories.no_body",
+      "severity": "error",
+      "status": "pass",
+      "message": "category no_body matches expected.toml",
+      "expected": 195,
+      "actual": 195
+    },
+    {
+      "id": "expect.crates.core",
+      "severity": "error",
+      "status": "pass",
+      "message": "crate core matches expected.toml",
+      "expected": {
+        "generated": 19337,
+        "skipped": 5772
+      },
+      "actual": {
+        "generated": 19337,
+        "skipped": 5772
+      }
+    },
+    {
+      "id": "expect.crates.alloc",
+      "severity": "error",
+      "status": "pass",
+      "message": "crate alloc matches expected.toml",
+      "expected": {
+        "generated": 1124,
+        "skipped": 1839
+      },
+      "actual": {
+        "generated": 1124,
+        "skipped": 1839
+      }
+    },
+    {
+      "id": "expect.crates.std",
+      "severity": "error",
+      "status": "pass",
+      "message": "crate std matches expected.toml",
+      "expected": {
+        "generated": 1254,
+        "skipped": 2541
+      },
+      "actual": {
+        "generated": 1254,
+        "skipped": 2541
+      }
+    },
+    {
+      "id": "schema.valid:categories.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "categories.json matches categories.schema.json"
+    },
+    {
+      "id": "schema.valid:functions/addr2line.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "functions/addr2line.json matches functions-crate.schema.json"
+    },
+    {
+      "id": "schema.valid:functions/adler2.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "functions/adler2.json matches functions-crate.schema.json"
+    },
+    {
+      "id": "schema.valid:functions/alloc.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "functions/alloc.json matches functions-crate.schema.json"
+    },
+    {
+      "id": "schema.valid:functions/compiler_builtins.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "functions/compiler_builtins.json matches functions-crate.schema.json"
+    },
+    {
+      "id": "schema.valid:functions/core.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "functions/core.json matches functions-crate.schema.json"
+    },
+    {
+      "id": "schema.valid:functions/dummy.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "functions/dummy.json matches functions-crate.schema.json"
+    },
+    {
+      "id": "schema.valid:functions/gimli.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "functions/gimli.json matches functions-crate.schema.json"
+    },
+    {
+      "id": "schema.valid:functions/hashbrown.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "functions/hashbrown.json matches functions-crate.schema.json"
+    },
+    {
+      "id": "schema.valid:functions/index.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "functions/index.json matches functions-index.schema.json"
+    },
+    {
+      "id": "schema.valid:functions/libc.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "functions/libc.json matches functions-crate.schema.json"
+    },
+    {
+      "id": "schema.valid:functions/memchr.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "functions/memchr.json matches functions-crate.schema.json"
+    },
+    {
+      "id": "schema.valid:functions/miniz_oxide.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "functions/miniz_oxide.json matches functions-crate.schema.json"
+    },
+    {
+      "id": "schema.valid:functions/object.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "functions/object.json matches functions-crate.schema.json"
+    },
+    {
+      "id": "schema.valid:functions/panic_abort.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "functions/panic_abort.json matches functions-crate.schema.json"
+    },
+    {
+      "id": "schema.valid:functions/panic_unwind.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "functions/panic_unwind.json matches functions-crate.schema.json"
+    },
+    {
+      "id": "schema.valid:functions/proc_macro.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "functions/proc_macro.json matches functions-crate.schema.json"
+    },
+    {
+      "id": "schema.valid:functions/rustc_demangle.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "functions/rustc_demangle.json matches functions-crate.schema.json"
+    },
+    {
+      "id": "schema.valid:functions/rustc_literal_escaper.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "functions/rustc_literal_escaper.json matches functions-crate.schema.json"
+    },
+    {
+      "id": "schema.valid:functions/std.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "functions/std.json matches functions-crate.schema.json"
+    },
+    {
+      "id": "schema.valid:functions/std_detect.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "functions/std_detect.json matches functions-crate.schema.json"
+    },
+    {
+      "id": "schema.valid:functions/unwind.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "functions/unwind.json matches functions-crate.schema.json"
+    },
+    {
+      "id": "schema.valid:run.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "run.json matches run.schema.json"
+    },
+    {
+      "id": "schema.valid:summary.json",
+      "severity": "error",
+      "status": "pass",
+      "message": "summary.json matches summary.schema.json"
+    }
+  ]
+}

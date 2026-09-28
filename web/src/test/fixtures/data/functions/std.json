@@ -1,0 +1,1 @@
+{"schema_version":"1.0.0","run_id":"synthetic-all-variants","crate":"std","functions":[{"name":"<fn(&u8) -> bool as ops::Fn<(&u8,)>>::call","status":"generated"},{"name":"ffi::CStr::to_str","status":"skipped","category":"requires_bounded_arguments","detail":"Requires --bounded-arguments for argument(s) self: &ffi::CStr","args":[{"name":"self","type":"&ffi::CStr"}]}]}

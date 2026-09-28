@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0.0",
+  "generator": {
+    "name": "autoharness-data",
+    "version": "0.1.0"
+  },
+  "run_id": "synthetic-all-variants",
+  "generated_at": "2026-01-01",
+  "status": "pass",
+  "files": [
+    {
+      "path": "categories.json",
+      "schema": "categories.schema.json",
+      "bytes": 2295,
+      "sha256": "fc67f6ed0b85ca155b6a8a3b13448bbcf011be5bda1d9a9f20acba6ea55ebdd8"
+    },
+    {
+      "path": "functions/alloc.json",
+      "schema": "functions-crate.schema.json",
+      "bytes": 418,
+      "sha256": "cbfbbdf47505cb6590b62014df79164cac0e3f0b8e9a527b9c5881034e4514b2"
+    },
+    {
+      "path": "functions/core.json",
+      "schema": "functions-crate.schema.json",
+      "bytes": 1964,
+      "sha256": "12113b4f77c2342a74c71dc22556452ec1f0deba2c4442da0f2913fe9c0be028"
+    },
+    {
+      "path": "functions/index.json",
+      "schema": "functions-index.schema.json",
+      "bytes": 430,
+      "sha256": "7f9d619bbfce6142143a2fcdf0a2db9f4e94272bd37b9188b562264684330d38"
+    },
+    {
+      "path": "functions/std.json",
+      "schema": "functions-crate.schema.json",
+      "bytes": 370,
+      "sha256": "076e7b5a805a8ccfa8deab0d4bd5e8e1db0f5a1dee2db36c6e673de431d2e314"
+    },
+    {
+      "path": "run.json",
+      "schema": "run.schema.json",
+      "bytes": 823,
+      "sha256": "80dae306ec6604fc5cb6801a6c158e309fd9a51fc6292c9dd891284c65e22948"
+    },
+    {
+      "path": "summary.json",
+      "schema": "summary.schema.json",
+      "bytes": 875,
+      "sha256": "9ace6680faddab5cc2124e8a1e9ee597812ff9822ea64189bd851236229eec52"
+    },
+    {
+      "path": "validation.json",
+      "schema": "validation.schema.json",
+      "bytes": 4029,
+      "sha256": "6ef905e1f2e2b07c4ad9e1fe3bce6be1b8821cb1ab23622ebb436ff68245c381"
+    }
+  ]
+}

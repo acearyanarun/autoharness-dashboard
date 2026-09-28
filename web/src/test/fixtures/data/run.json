@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "run_id": "synthetic-all-variants",
+  "provenance": "manual",
+  "finished_at": "2026-01-01",
+  "duration_seconds": null,
+  "kani": {
+    "repo": null,
+    "ref": null,
+    "commit": "0000000",
+    "commit_is_full": false,
+    "version": null
+  },
+  "library": {
+    "repo": null,
+    "ref": null,
+    "commit": "1111111",
+    "commit_is_full": false
+  },
+  "toolchain": null,
+  "target": "x86_64-unknown-linux-gnu",
+  "flags": {
+    "bounded_arguments": false
+  },
+  "command": null,
+  "host": null,
+  "workflow_url": null,
+  "adapter": "kani-list-stdout-v1",
+  "source_files": [
+    {
+      "role": "listing",
+      "name": "all_variants.stdout.txt",
+      "sha256": "a022089740dddd5ef3c1819d17071985df833d5f83ab70f9ce67e16926a3cced"
+    }
+  ],
+  "comparability_key": "4c733e89ceec7cb0"
+}

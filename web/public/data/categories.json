@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0.0",
+  "categories": [
+    {
+      "id": "missing_arbitrary",
+      "label": "Missing Arbitrary",
+      "kani_variant": "MissingArbitraryImpl",
+      "axis": "coverage",
+      "expected_behavior": false,
+      "umbrella": {
+        "repo": "model-checking/kani",
+        "number": 4887,
+        "url": "https://github.com/model-checking/kani/issues/4887"
+      },
+      "match_prefixes": [
+        "Missing Arbitrary implementation for argument(s)"
+      ]
+    },
+    {
+      "id": "generic_no_candidate",
+      "label": "Generic: no candidate type",
+      "kani_variant": "GenericFn",
+      "axis": "coverage",
+      "expected_behavior": false,
+      "umbrella": {
+        "repo": "model-checking/kani",
+        "number": 4888,
+        "url": "https://github.com/model-checking/kani/issues/4888"
+      },
+      "match_prefixes": [
+        "Generic Function: no candidate type"
+      ]
+    },
+    {
+      "id": "const_generic_unsupported",
+      "label": "Non-usize const generic",
+      "kani_variant": "GenericFn",
+      "axis": "coverage",
+      "expected_behavior": false,
+      "umbrella": {
+        "repo": "model-checking/kani",
+        "number": 4889,
+        "url": "https://github.com/model-checking/kani/issues/4889"
+      },
+      "match_prefixes": [
+        "Generic Function: non-usize const generic parameters",
+        "Generic Function: the function has a `const {}` block"
+      ]
+    },
+    {
+      "id": "requires_bounded_arguments",
+      "label": "Requires bounded arguments",
+      "kani_variant": "RequiresBoundedArguments",
+      "axis": "coverage",
+      "expected_behavior": true,
+      "umbrella": {
+        "repo": "model-checking/kani",
+        "number": 4890,
+        "url": "https://github.com/model-checking/kani/issues/4890"
+      },
+      "match_prefixes": [
+        "Requires --bounded-arguments for argument(s)"
+      ]
+    },
+    {
+      "id": "no_body",
+      "label": "No function body",
+      "kani_variant": "NoBody",
+      "axis": "coverage",
+      "expected_behavior": true,
+      "umbrella": {
+        "repo": "model-checking/kani",
+        "number": 4891,
+        "url": "https://github.com/model-checking/kani/issues/4891"
+      },
+      "match_prefixes": [
+        "The function does not have a body"
+      ]
+    }
+  ]
+}

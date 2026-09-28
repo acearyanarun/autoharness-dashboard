@@ -1,18 +1,25 @@
-name: CI
+name: CI and dashboard
 
-# Phase 1 CI: tests the ingestion pipeline against fixtures. It never builds or runs Kani;
-# the measurement workflow (explicit kani_ref / library_ref inputs) arrives in Phase 2.
+# Tests the data pipeline and the dashboard, then deploys the dashboard to GitHub Pages.
+# Never builds or runs Kani: the dataset is the validated Sept. 17 baseline, rebuilt here.
+# (Automated Kani measurement is Phase 2.)
 
 on:
   push:
+    branches: [feature/autoharness-dynamic-dashboard]
   pull_request:
   workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  test:
+  python:
+    name: Python ${{ matrix.python }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -28,12 +35,10 @@ jobs:
       - name: Install with dev extras
         run: python -m pip install -e '.[dev]'
 
-      - name: Tests (includes the offline wheel-install tests)
+      - name: Tests (includes offline wheel-install and committed-dataset checks)
         run: python -m pytest -rs
 
       - name: Installed package, run from outside the checkout
-        # A normal (non-editable) install into a fresh venv, with its declared dependencies.
-        # Proves config and schemas come from the package and jsonschema comes with it.
         working-directory: ${{ runner.temp }}
         run: |
           python -m venv installed
@@ -44,10 +49,65 @@ jobs:
             --out example-data
           installed/bin/autoharness-data verify --data example-data
 
-      - name: Upload example data
-        if: matrix.python == '3.11'
-        uses: actions/upload-artifact@v4
+  dashboard:
+    name: Dataset + dashboard build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
         with:
-          name: example-data
-          path: ${{ runner.temp }}/example-data
-          retention-days: 7
+          python-version: "3.11"
+
+      - name: Install the generator
+        run: python -m pip install .
+
+      - name: Rebuild and verify the dashboard dataset
+        run: scripts/build-baseline-data.sh web/public/data
+
+      - name: Committed dataset matches the fresh build
+        run: git diff --exit-code --stat -- web/public/data
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install frontend dependencies
+        working-directory: web
+        run: npm ci
+
+      - name: Frontend tests
+        working-directory: web
+        run: npm test
+
+      - name: Frontend build (typecheck + bundle; data is copied from web/public/data)
+        working-directory: web
+        run: npm run build
+
+      - name: Check the build ships a passing dataset
+        run: |
+          test -f web/dist/data/manifest.json
+          python -m autoharness_data verify --data web/dist/data
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: web/dist
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: [python, dashboard]
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/feature/autoharness-dynamic-dashboard'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

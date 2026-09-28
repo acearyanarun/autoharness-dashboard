@@ -32,6 +32,10 @@ class Listing:
     declared_skipped: int | None
     adapter: str
     warnings: list[str] = field(default_factory=list)
+    # False for inputs that are not Kani's printed listing (e.g. per-function JSON), which
+    # carry no "... for N function(s)" headers. The header checks then report "skipped"
+    # with the reason, instead of pretending to have compared something.
+    has_kani_headers: bool = True
 
 
 @dataclass(frozen=True)

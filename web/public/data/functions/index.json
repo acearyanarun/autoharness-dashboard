@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.0.0",
+  "run_id": "baseline-2026-09-17-x86_64",
+  "crates": [
+    {
+      "crate": "addr2line",
+      "path": "functions/addr2line.json",
+      "generated": 5,
+      "skipped": 78
+    },
+    {
+      "crate": "adler2",
+      "path": "functions/adler2.json",
+      "generated": 11,
+      "skipped": 5
+    },
+    {
+      "crate": "alloc",
+      "path": "functions/alloc.json",
+      "generated": 1124,
+      "skipped": 1839
+    },
+    {
+      "crate": "compiler_builtins",
+      "path": "functions/compiler_builtins.json",
+      "generated": 1630,
+      "skipped": 42
+    },
+    {
+      "crate": "core",
+      "path": "functions/core.json",
+      "generated": 19337,
+      "skipped": 5772
+    },
+    {
+      "crate": "dummy",
+      "path": "functions/dummy.json",
+      "generated": 1,
+      "skipped": 0
+    },
+    {
+      "crate": "gimli",
+      "path": "functions/gimli.json",
+      "generated": 957,
+      "skipped": 1093
+    },
+    {
+      "crate": "hashbrown",
+      "path": "functions/hashbrown.json",
+      "generated": 242,
+      "skipped": 423
+    },
+    {
+      "crate": "libc",
+      "path": "functions/libc.json",
+      "generated": 623,
+      "skipped": 130
+    },
+    {
+      "crate": "memchr",
+      "path": "functions/memchr.json",
+      "generated": 263,
+      "skipped": 240
+    },
+    {
+      "crate": "miniz_oxide",
+      "path": "functions/miniz_oxide.json",
+      "generated": 34,
+      "skipped": 30
+    },
+    {
+      "crate": "object",
+      "path": "functions/object.json",
+      "generated": 1025,
+      "skipped": 1779
+    },
+    {
+      "crate": "panic_abort",
+      "path": "functions/panic_abort.json",
+      "generated": 1,
+      "skipped": 1
+    },
+    {
+      "crate": "panic_unwind",
+      "path": "functions/panic_unwind.json",
+      "generated": 2,
+      "skipped": 3
+    },
+    {
+      "crate": "proc_macro",
+      "path": "functions/proc_macro.json",
+      "generated": 321,
+      "skipped": 213
+    },
+    {
+      "crate": "rustc_demangle",
+      "path": "functions/rustc_demangle.json",
+      "generated": 12,
+      "skipped": 50
+    },
+    {
+      "crate": "rustc_literal_escaper",
+      "path": "functions/rustc_literal_escaper.json",
+      "generated": 31,
+      "skipped": 19
+    },
+    {
+      "crate": "std",
+      "path": "functions/std.json",
+      "generated": 1254,
+      "skipped": 2541
+    },
+    {
+      "crate": "std_detect",
+      "path": "functions/std_detect.json",
+      "generated": 99,
+      "skipped": 0
+    },
+    {
+      "crate": "unwind",
+      "path": "functions/unwind.json",
+      "generated": 3,
+      "skipped": 0
+    }
+  ]
+}

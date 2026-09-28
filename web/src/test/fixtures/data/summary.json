@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0.0",
+  "run_id": "synthetic-all-variants",
+  "totals": {
+    "candidates": 14,
+    "generated": 4,
+    "skipped": 10
+  },
+  "by_category": [
+    {
+      "id": "missing_arbitrary",
+      "count": 3
+    },
+    {
+      "id": "generic_no_candidate",
+      "count": 2
+    },
+    {
+      "id": "const_generic_unsupported",
+      "count": 2
+    },
+    {
+      "id": "requires_bounded_arguments",
+      "count": 2
+    },
+    {
+      "id": "no_body",
+      "count": 1
+    }
+  ],
+  "by_crate": [
+    {
+      "crate": "alloc",
+      "generated": 1,
+      "skipped": 1
+    },
+    {
+      "crate": "core",
+      "generated": 2,
+      "skipped": 8
+    },
+    {
+      "crate": "std",
+      "generated": 1,
+      "skipped": 1
+    }
+  ],
+  "not_observable": {
+    "kani_impl": "Kani omits KaniImpl skips from its listing tables, so they are not counted here."
+  }
+}

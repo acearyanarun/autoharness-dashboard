@@ -4,7 +4,10 @@ Everything downstream of an adapter is independent of Kani's output format. When
 gains a machine-readable skip-reason output, add an adapter here; nothing else changes.
 """
 
-from . import kani_list_stdout
+from . import functions_json, kani_list_stdout
 
-ADAPTERS = {kani_list_stdout.NAME: kani_list_stdout.parse}
+ADAPTERS = {
+    kani_list_stdout.NAME: kani_list_stdout.parse,
+    functions_json.NAME: functions_json.parse,
+}
 DEFAULT = kani_list_stdout.NAME

@@ -18,10 +18,12 @@ def _check(checks, cid, ok, message, expected=None, actual=None, severity="error
 
 def listing_checks(listing: Listing | None, functions: list[Classified]) -> list[Check]:
     checks: list[Check] = []
-    if listing is None:
+    if listing is None or not listing.has_kani_headers:
+        why = ("no raw listing was parsed for this build" if listing is None else
+               f"input adapter {listing.adapter!r} has no Kani header counts to compare against")
         for cid in ("listing.generated_header", "listing.skipped_header",
                     "listing.generated_rows_match_header", "listing.skipped_rows_match_header"):
-            checks.append(Check(cid, "error", "skipped", "no raw listing was parsed for this build"))
+            checks.append(Check(cid, "error", "skipped", why))
         return checks
     # Count the parsed rows themselves, independent of classification, so an unclassified
     # reason is reported once (by classification.complete), not again as a count mismatch.
