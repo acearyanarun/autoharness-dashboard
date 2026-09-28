@@ -199,8 +199,9 @@ docs/                           architecture, data contract, classification, dev
 
 ## Deployment
 
-The CI workflow tests everything and, on pushes to `feature/autoharness-dynamic-dashboard`, deploys
-`web/dist` to GitHub Pages. To enable it: *Settings → Pages → Source: GitHub Actions*.
+CI always runs the Python tests, the dataset rebuild and verification, the frontend tests, and the production
+build. **Deployment to GitHub Pages is off by default.** It runs only when the repository variable `ENABLE_PAGES`
+is `true` (and Pages' source is set to *GitHub Actions*); otherwise the deploy job is skipped and CI stays green.
 
 Pages on a private repository needs a paid plan, and **the published site is publicly readable** unless the
 organization uses GitHub Enterprise Cloud with private Pages. See [docs/development.md](docs/development.md#deployment)

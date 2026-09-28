@@ -89,11 +89,15 @@ cd web && npm install && cd ..
 
 ## Deployment
 
-`ci.yml` deploys `web/dist` to GitHub Pages on pushes to `feature/autoharness-dynamic-dashboard`
-(pull requests build but do not deploy). One-time setup:
+`ci.yml` always runs the tests and the production build. It deploys `web/dist` to GitHub Pages only
+when the repository variable **`ENABLE_PAGES`** is `true`, on pushes to
+`feature/autoharness-dynamic-dashboard`. Otherwise the deploy job is skipped and CI stays green.
+One-time setup, when you decide to publish:
 
 1. *Settings → Pages → Build and deployment → Source: **GitHub Actions***.
-2. If the deploy job reports that the branch is not allowed to deploy: *Settings → Environments →
+2. *Settings → Secrets and variables → Actions → Variables → New repository variable*:
+   `ENABLE_PAGES` = `true`.
+3. If the deploy job reports that the branch is not allowed to deploy: *Settings → Environments →
    github-pages → Deployment branches*, and add `feature/autoharness-dynamic-dashboard`.
 
 **Visibility.** Pages for a private repository requires GitHub Pro, Team or Enterprise, and the site is

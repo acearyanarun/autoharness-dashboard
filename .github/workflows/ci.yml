@@ -96,10 +96,17 @@ jobs:
         with:
           path: web/dist
 
+  # Opt-in: deploys only when the repository variable ENABLE_PAGES is "true"
+  # (Settings -> Secrets and variables -> Actions -> Variables). Otherwise this job is
+  # skipped and the workflow stays green. Pages sites are public on non-Enterprise plans,
+  # so publishing is a deliberate step (see docs/development.md#deployment).
   deploy:
     name: Deploy to GitHub Pages
     needs: [python, dashboard]
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/feature/autoharness-dynamic-dashboard'
+    if: >-
+      vars.ENABLE_PAGES == 'true' &&
+      github.event_name != 'pull_request' &&
+      github.ref == 'refs/heads/feature/autoharness-dynamic-dashboard'
     runs-on: ubuntu-latest
     permissions:
       pages: write
