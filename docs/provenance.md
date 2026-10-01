@@ -26,6 +26,10 @@ reconstruct a missing original file.
 ## Publication
 
 The golden fixture is practicum's published per-function output (a teammate's data). `web/public/data`
-is derived from it. Keep both out of public view (a public repository, or a GitHub Pages site, which is
-public on non-Enterprise plans) until the data owner agrees, or until they are replaced by a run this
-project produced itself.
+is derived from it. Publication of both has been approved; see [Publication approval](#publication-approval).
+
+## Publication approval
+
+Publication of this repository, including the Sept. 17, 2026 baseline dataset, has been approved by the source project's author and the practicum's technical lead.
+
+Source project: [Jieyou's AutoHarness Dashboard](https://github.com/wodex1nhaoIeng/autoharness-dashboard).

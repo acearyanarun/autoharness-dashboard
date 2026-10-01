@@ -13,8 +13,8 @@ Replace the JSON and the dashboard updates. No UI code changes.
 > **Status: MVP.** The dashboard currently shows the **controlled Sept. 17, 2026 baseline**, not a live
 > Kani run. Automated Kani measurement and live GitHub issue sync are planned (see [Roadmap](#roadmap)).
 
-**Live dashboard:** not published yet. Publishing needs a decision about the baseline data; see
-[Deployment](#deployment). To view it now, [run it locally](#run-the-dashboard) (two commands).
+**Live dashboard:** Publication approved; deployment pending. To view it now,
+[run it locally](#run-the-dashboard) (two commands).
 
 ![Coverage decision tree](docs/screenshots/coverage.png)
 
@@ -185,8 +185,9 @@ docs/                           architecture, data contract, classification, dev
 - **`KaniImpl` skips are not counted**, because Kani leaves them out of its listing (4,563 in this run).
 - The baseline's Kani and verify-rust-std revisions are known only by short SHA and included local
   workarounds, so the run can't be reproduced exactly from upstream today.
-- The baseline dataset is derived from data published by a teammate's project. Keep this repository and
-  any deployment private until that data is cleared for publication (see [docs/provenance.md](docs/provenance.md)).
+- The baseline dataset is derived from [Jieyou's AutoHarness Dashboard](https://github.com/wodex1nhaoIeng/autoharness-dashboard).
+  It is published here with permission from the project's author and the practicum's technical lead.
+  See [docs/provenance.md](docs/provenance.md) for how the data was derived.
 
 ## Roadmap
 
